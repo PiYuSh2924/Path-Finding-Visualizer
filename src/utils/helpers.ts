@@ -12,7 +12,7 @@ const createRow = (row : number, startTile : TileType, endTile : TileType) => {
             isPath : false,
             distance : Infinity,
             isStart : row === startTile.row && col === startTile.col,
-            // isTraversed : false,
+            isTraversed : false,
             parent : null
         })
     }

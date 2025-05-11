@@ -7,6 +7,7 @@ export type TileType = {
     col : number;
     isStart : boolean;
     isEnd : boolean;
+    isTraversed : boolean;
     isWall : boolean;
     isPath : boolean;
     distance : number;
