@@ -2,6 +2,10 @@ import React from 'react'
 import { END_TILE_STYLE, MAX_ROWS, PATH_TILE_STYLE, START_TILE_STYLE, TILE_STYLE, TRAVERSED_TILE_STYLE, WALL_TILE_STYLE } from '../utils/constants';
 import { twMerge } from 'tailwind-merge';
 
+interface MouseFunction {
+    (row: number, col: number) : void;
+}
+
 const Tile = ({
     row, 
     col,
@@ -10,6 +14,9 @@ const Tile = ({
     isTraversed,
     isWall,
     isPath,
+    onMouseDown,
+    onMouseUp,
+    onMouseEnter
 } : {
     row : number,
     col : number,
@@ -17,9 +24,12 @@ const Tile = ({
     isEnd : boolean,
     isTraversed : boolean,
     isWall : boolean,
-    isPath : boolean
+    isPath : boolean,
+    onMouseDown : MouseFunction,
+    onMouseUp : MouseFunction,
+    onMouseEnter : MouseFunction
 }) => {
-    let tileTypeStyle;
+    let tileTypeStyle: string;
 
     if(isStart) {
         tileTypeStyle = START_TILE_STYLE
@@ -39,7 +49,13 @@ const Tile = ({
     const edgeStyle = row === MAX_ROWS - 1 && col === 0  ? 'border-l' : ''
 
   return (
-    <div className={twMerge(tileTypeStyle, borderStyle, edgeStyle)} id={`${row}-${col}`} />
+    <div 
+        className={twMerge(tileTypeStyle, borderStyle, edgeStyle)} 
+        id={`${row}-${col}`} 
+        onMouseDown={() => onMouseDown(row, col)}
+        onMouseUp={() => onMouseUp(row, col)}
+        onMouseEnter={() => onMouseEnter(row, col)}
+    />
   )
 }
 
