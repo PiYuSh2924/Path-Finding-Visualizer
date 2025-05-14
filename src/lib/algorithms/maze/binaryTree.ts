@@ -24,8 +24,8 @@ export const binaryTree = async (
         }
     }
 
-    for(let row = 1; row < MAX_ROWS; row++){
-        for(let col = 1; col < MAX_COLS; col++){
+    for(let row = 1; row < MAX_ROWS; row+=2){
+        for(let col = 1; col < MAX_COLS; col+=2){
             if(row === MAX_ROWS - 2 && col === MAX_COLS - 2){
                 continue
             } else if(row === MAX_ROWS - 2){
