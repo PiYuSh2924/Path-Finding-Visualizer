@@ -33,37 +33,39 @@ const Grid = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObje
     }
 
     return (
-      <div
-        className={twMerge(
-          "flex items-center flex-col justify-center border-sky-300 mt-10",
-          "h-[663px] w-[833px]", // Fixed dimensions based on MAX_ROWS * 17px and MAX_COLS * 17px
-          "md:h-[585px] md:w-[735px]", // Medium screens
-          "sm:h-[312px] sm:w-[392px]", // Small screens
-          "h-[273px] w-[343px]" // Extra small screens
-        )}
-      >
-        {grid.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex">
-            {row.map((tile, tileIndex) => {
-              const {isEnd, isStart, isPath, isTraversed, isWall} = tile;
-              return (
-                <Tile 
-                  key={tileIndex}
-                  row={tile.row}
-                  col={tile.col}
-                  isEnd={isEnd}
-                  isStart={isStart}
-                  isPath={isPath}
-                  isTraversed={isTraversed}
-                  isWall={isWall}
-                  onMouseDown={() => handleMouseEvent('down', tile.row, tile.col)}
-                  onMouseUp={() => handleMouseEvent('up', tile.row, tile.col)}
-                  onMouseEnter={() => handleMouseEvent('enter', tile.row, tile.col)}
-                />
-              )
-            })}
-          </div>
-        ))}
+      <div className="flex-1 flex items-center justify-center">
+        <div
+          className={twMerge(
+            "border-sky-300 mt-10",
+            "h-[663px] w-[833px]", // Large screens (default)
+            "md:h-[585px] md:w-[735px]", // Medium screens
+            "sm:h-[312px] sm:w-[392px]", // Small screens
+            "xs:h-[273px] xs:w-[343px]" // Extra small screens
+          )}
+        >
+          {grid.map((row, rowIndex) => (
+            <div key={rowIndex} className="flex">
+              {row.map((tile, tileIndex) => {
+                const {isEnd, isStart, isPath, isTraversed, isWall} = tile;
+                return (
+                  <Tile 
+                    key={tileIndex}
+                    row={tile.row}
+                    col={tile.col}
+                    isEnd={isEnd}
+                    isStart={isStart}
+                    isPath={isPath}
+                    isTraversed={isTraversed}
+                    isWall={isWall}
+                    onMouseDown={() => handleMouseEvent('down', tile.row, tile.col)}
+                    onMouseUp={() => handleMouseEvent('up', tile.row, tile.col)}
+                    onMouseEnter={() => handleMouseEvent('enter', tile.row, tile.col)}
+                  />
+                )
+              })}
+            </div>
+          ))}
+        </div>
       </div>
     );
 }
