@@ -1,7 +1,5 @@
 import React, { RefObject, useState } from 'react'
 import { usePathFinding } from '../hooks/usePathFinding';
-import { twMerge } from 'tailwind-merge';
-import { MAX_ROWS, MAX_COLS } from '../utils/constants';
 import Tile from './Tile';
 import { checkIfStartOrEnd, createNewGrid } from '../utils/helpers';
 

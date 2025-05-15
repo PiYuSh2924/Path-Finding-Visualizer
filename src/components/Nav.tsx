@@ -5,7 +5,7 @@ import { EXTENDED_SLEEP_TIME, MAZES, PATHFINDING_ALGORITHMS, SLEEP_TIME, SPEEDS 
 import { usePathFinding } from "../hooks/usePathFinding";
 import { useTile } from "../hooks/useTile";
 import { useSpeed } from "../hooks/useSpeed";
-import { AlgorithmType, MazeType } from "../utils/types";
+import { AlgorithmType, MazeType, SpeedType } from "../utils/types";
 import { resetGrid } from "../utils/resetGrid";
 import { runMazeAlgorithm } from "../utils/runMazeAlgorithm";
 import { runPathFindingAlgorithm } from "../utils/runPathFindingAlgorithm";
@@ -98,6 +98,15 @@ const Nav = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObjec
             isDisabled={isDisabled}
             onChange={(e) => {
               setAlgorithm(e.target.value as AlgorithmType);
+            }}
+          />
+          <Select
+            label="Speed"
+            value={speed}
+            options={SPEEDS}
+            isDisabled={isDisabled}
+            onChange={(e) => {
+              setSpeed(parseInt(e.target.value) as SpeedType);
             }}
           />
           <PlayButton 
