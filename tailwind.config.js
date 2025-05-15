@@ -9,7 +9,7 @@ export default {
       keyframes: {
         wall : {
           "0%" : {
-          transform: "scale(0.7)"
+            transform: "scale(0.7)"
           },
           "100%" : {
             transform : "scale(1)"
@@ -52,16 +52,16 @@ export default {
           },
           "100%": {
             transform: "scale(1)",
+            backgroundColor: "#16a34a"
           },
         }
       },
       animation: {
-        traversed: "traversed 0.5s cubic-bezier(0, 0, 0.2, 1)",
-        path: "path 1.5s cubic-bezier(0, 0, 0.2, 1)",
-        wall: "wall 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        traversed: "traversed 0.5s ease-out forwards",
+        path: "path 1.5s ease-out forwards",
+        wall: "wall 0.3s ease-out forwards",
       },
     },
   },
   plugins: [],
 }
-
