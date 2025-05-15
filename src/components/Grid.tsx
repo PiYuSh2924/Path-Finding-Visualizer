@@ -9,18 +9,6 @@ const Grid = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObje
     const { grid, setGrid } = usePathFinding();
     const [isMouseDown, setIsMouseDown] = useState(false);
 
-    const calculateGridDimensions = () => {
-      const baseSize = 17;
-      const mdSize = 15;
-      const xsSize = 8;
-      const minSize = 7;
-  
-      const gridHeight = `lg:min-h-[${MAX_ROWS * baseSize}px] md:min-h-[${MAX_ROWS * mdSize}px] xs:min-h-[${MAX_ROWS * xsSize}px] min-h-[${MAX_ROWS * minSize}px]`;
-      const gridWidth = `w-[${MAX_COLS * baseSize}px] md:w-[${MAX_COLS * mdSize}px] xs:w-[${MAX_COLS * xsSize}px] min-w-[${MAX_COLS * minSize}px]`;
-  
-      return `${gridHeight} ${gridWidth}`;
-    };
-
     const handleMouseEvent = (event : 'down' | 'up' | 'enter', row : number , col : number) : void => {
       if(isVisualizationRunningRef.current || checkIfStartOrEnd(row, col)) {
         return;
@@ -42,38 +30,34 @@ const Grid = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObje
           }
           break;
       }
-
     }
 
     return (
-      <div
-      className={twMerge(
-        "flex items-center flex-col justify-center border-sky-300 mt-10",
-        calculateGridDimensions()
-      )}
-    >
+      <div className="flex-1 flex items-center justify-center">
+        <div className="grid grid-cols-[repeat(49,17px)] grid-rows-[repeat(39,17px)] gap-0">
           {grid.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex">
-                  {row.map((tile, tileIndex) => {
-                      const {isEnd, isStart, isPath, isTraversed, isWall} = tile;
-                      return (
-                        <Tile 
-                            key={tileIndex}
-                            row={tile.row}
-                            col={tile.col}
-                            isEnd={isEnd}
-                            isStart={isStart}
-                            isPath={isPath}
-                            isTraversed={isTraversed}
-                            isWall={isWall}
-                            onMouseDown={() => handleMouseEvent('down', tile.row, tile.col)}
-                            onMouseUp={() => handleMouseEvent('up', tile.row, tile.col)}
-                            onMouseEnter={() => handleMouseEvent('enter', tile.row, tile.col)}
-                        />
-                      )
-                    })}
-              </div>
+            <React.Fragment key={rowIndex}>
+              {row.map((tile, tileIndex) => {
+                const {isEnd, isStart, isPath, isTraversed, isWall} = tile;
+                return (
+                  <Tile 
+                    key={`${rowIndex}-${tileIndex}`}
+                    row={tile.row}
+                    col={tile.col}
+                    isEnd={isEnd}
+                    isStart={isStart}
+                    isPath={isPath}
+                    isTraversed={isTraversed}
+                    isWall={isWall}
+                    onMouseDown={() => handleMouseEvent('down', tile.row, tile.col)}
+                    onMouseUp={() => handleMouseEvent('up', tile.row, tile.col)}
+                    onMouseEnter={() => handleMouseEvent('enter', tile.row, tile.col)}
+                  />
+                )
+              })}
+            </React.Fragment>
           ))}
+        </div>
       </div>
     );
 }
