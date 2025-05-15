@@ -17,28 +17,3 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(49, minmax(17px, 1fr));
-  gap: 0;
-  margin-top: 2.5rem;
-  border: 1px solid rgb(125 211 252);
-}
-
-@media (max-width: 1024px) {
-  .grid-container {
-    grid-template-columns: repeat(49, minmax(15px, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .grid-container {
-    grid-template-columns: repeat(49, minmax(8px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  .grid-container {
-    grid-template-columns: repeat(49, minmax(7px, 1fr));
-  }
-}
