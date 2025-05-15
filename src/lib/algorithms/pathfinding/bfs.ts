@@ -1,4 +1,3 @@
-import { VscDebugContinueSmall } from "react-icons/vsc";
 import { GridType, TileType } from "../../../utils/types";
 import { isEqual } from "../../../utils/helpers";
 import { getUntraversedNeighbours } from "../../../utils/getUntraversedNeighbours";
@@ -16,7 +15,7 @@ export const bfs = (
     const unTraversed = [base];
 
     while(unTraversed.length){
-        const tile = unTraversed.shift()!;
+        const tile = unTraversed.shift() as TileType;
         if(tile.isWall) continue;
         if(tile.distance === Infinity) break;
         tile.isTraversed = true;

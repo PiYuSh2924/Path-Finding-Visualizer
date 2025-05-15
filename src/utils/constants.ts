@@ -32,13 +32,13 @@ export const TILE_STYLE =
 
 export const TRAVERSED_TILE_STYLE = "bg-cyan-400"
 
-export const START_TILE_STYLE = TILE_STYLE + " bg-green-400"
+export const START_TILE_STYLE = TILE_STYLE + " bg-green-500"
 
-export const END_TILE_STYLE = TILE_STYLE + " bg-red-400"
+export const END_TILE_STYLE = TILE_STYLE + " bg-red-600"
 
-export const WALL_TILE_STYLE = TILE_STYLE + " bg-gray-400"
+export const WALL_TILE_STYLE = TILE_STYLE + " bg-gray-200"
 
-export const PATH_TILE_STYLE = TILE_STYLE + " bg-green-500"
+export const PATH_TILE_STYLE = TILE_STYLE + " bg-green-600"
 
 export const MAZES : MazeSelectType[] = [
   {name: "No Maze", value: 'NONE'},
@@ -52,11 +52,12 @@ export const SPEEDS : SpeedSelectType[] = [
   {name: "Fast", value: 0.5},
 ]
 
-export const SLEEP_TIME = 8;
-
 export const PATHFINDING_ALGORITHMS: AlgorithmSelectType[] = [
   {name: "Dijkstra", value: 'DIJKSTRA'},
   {name: "A*", value: 'A_STAR'},
   {name: "Breadth First Search", value: 'BFS'},
   {name: "Depth First Search", value: 'DFS'}
 ]
+
+export const SLEEP_TIME = 8;
+export const EXTENDED_SLEEP_TIME = 30;

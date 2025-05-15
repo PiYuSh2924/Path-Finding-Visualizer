@@ -9,6 +9,18 @@ const Grid = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObje
     const { grid, setGrid } = usePathFinding();
     const [isMouseDown, setIsMouseDown] = useState(false);
 
+    const calculateGridDimensions = () => {
+      const baseSize = 17;
+      const mdSize = 15;
+      const xsSize = 8;
+      const minSize = 7;
+  
+      const gridHeight = `lg:min-h-[${MAX_ROWS * baseSize}px] md:min-h-[${MAX_ROWS * mdSize}px] xs:min-h-[${MAX_ROWS * xsSize}px] min-h-[${MAX_ROWS * minSize}px]`;
+      const gridWidth = `w-[${MAX_COLS * baseSize}px] md:w-[${MAX_COLS * mdSize}px] xs:w-[${MAX_COLS * xsSize}px] min-w-[${MAX_COLS * minSize}px]`;
+  
+      return `${gridHeight} ${gridWidth}`;
+    };
+
     const handleMouseEvent = (event : 'down' | 'up' | 'enter', row : number , col : number) : void => {
       if(isVisualizationRunningRef.current || checkIfStartOrEnd(row, col)) {
         return;
@@ -33,24 +45,13 @@ const Grid = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObje
 
     }
 
-
-
-
     return (
       <div
-        className={twMerge(
-          //Base classes
-          "flex items-center flex-col justify-center border-sky-300 mt-10",
-          //Control Grid Height
-          `lg:min-h-[${MAX_ROWS * 17}px] md:min-h-[${
-            MAX_ROWS * 15
-          }px] xs:min-h-[${MAX_ROWS * 8}px] min-h-[${MAX_ROWS * 7}px]`,
-          //Controlling Grid Width
-          `lg:w-[${MAX_COLS * 17}px] md:w-[${MAX_COLS * 15}px] xs:w-[${
-            MAX_COLS * 8
-          }px] w-[${MAX_COLS * 7}px]`
-        )}
-      >
+      className={twMerge(
+        "flex items-center flex-col justify-center border-sky-300 mt-10",
+        calculateGridDimensions()
+      )}
+    >
           {grid.map((row, rowIndex) => (
               <div key={rowIndex} className="flex">
                   {row.map((tile, tileIndex) => {

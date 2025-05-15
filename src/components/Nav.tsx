@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useState } from "react";
 import Select from "./Select";
 import PlayButton from "./PlayButton"
-import { MAZES, PATHFINDING_ALGORITHMS } from "../utils/constants";
+import { EXTENDED_SLEEP_TIME, MAZES, PATHFINDING_ALGORITHMS, SLEEP_TIME, SPEEDS } from "../utils/constants";
 import { usePathFinding } from "../hooks/usePathFinding";
 import { useTile } from "../hooks/useTile";
 import { useSpeed } from "../hooks/useSpeed";
@@ -9,8 +9,9 @@ import { AlgorithmType, MazeType } from "../utils/types";
 import { resetGrid } from "../utils/resetGrid";
 import { runMazeAlgorithm } from "../utils/runMazeAlgorithm";
 import { runPathFindingAlgorithm } from "../utils/runPathFindingAlgorithm";
+import { animatePath } from "../utils/animatePath";
 
-const Nav = () => {
+const Nav = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObject<boolean>}) => {
   const [isDisabled, setIsDisabled] = useState(false);
   const {
     maze,
@@ -23,55 +24,56 @@ const Nav = () => {
     setAlgorithm,
   } = usePathFinding();
   const { startTile, endTile } = useTile();
-  const { speed } = useSpeed();
-
-  const handleReset = () => {
-    const newGrid = resetGrid({ grid, startTile, endTile });
-    setGrid(newGrid);
-  };
-
-  useEffect(() => {
-    if (maze === "NONE") {
-      handleReset();
-    }
-  }, [maze]);
+  const { speed, setSpeed } = useSpeed();
 
   const handleMazeGenaration = (maze: MazeType) => {
-    setMaze(maze);
-    if (maze != "NONE") {
-      setIsDisabled(true);
-      runMazeAlgorithm({
-        maze,
-        grid,
-        startTile,
-        endTile,
-        setIsDisabled,
-        speed,
-      });
-      const newGrid = grid.slice();
-      setGrid(newGrid);
-      setIsGraphVisualized(false);
-    }
-  };
-
-  const handlerRunVisualizer = () => {
-    if(isGraphVisualized){
-      setIsGraphVisualized(false);
-      resetGrid({grid : grid.slice(), startTile, endTile})
+    if (maze === "NONE") {
+      setMaze(maze);
+      resetGrid({ grid, startTile, endTile });
       return;
     }
 
-    const {traversedTiles, path} = runPathFindingAlgorithm({
+    setMaze(maze);
+    setIsDisabled(true);
+    runMazeAlgorithm({
+      maze,
+      grid,
+      startTile,
+      endTile,
+      setIsDisabled,
+      speed,
+    });
+    const newGrid = grid.slice();
+    setGrid(newGrid);
+    setIsGraphVisualized(false);
+  };
+
+  const handlerRunVisualizer = () => {
+    if (isGraphVisualized) {
+      setIsGraphVisualized(false);
+      resetGrid({ grid: grid.slice(), startTile, endTile });
+      // setGrid([...grid]);  // Ensure the state is re-triggered
+      return;
+    }
+
+    const { traversedTiles, path } = runPathFindingAlgorithm({
       algorithm,
       grid,
       startTile,
-      endTile
-    })
+      endTile,
+    });
 
-    console.log("traversed tiles", traversedTiles);
-    console.log("path", path);
-    
-  }
+    animatePath(traversedTiles, path, startTile, endTile, speed);
+    setIsDisabled(true);
+    isVisualizationRunningRef.current = true;
+    setTimeout(() => {
+      const newGrid = grid.slice();
+      setGrid(newGrid);
+      setIsGraphVisualized(true);
+      setIsDisabled(false);
+      isVisualizationRunningRef.current = false;
+    }, SLEEP_TIME * (traversedTiles.length + SLEEP_TIME * 2) + EXTENDED_SLEEP_TIME * (path.length + 60) * SPEEDS.find((s) => s.value === speed)!.value);
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[4.5rem] border-b shadow-gray-600 sm:px-5 px-0">
@@ -84,6 +86,7 @@ const Nav = () => {
             label="Maze"
             value={maze}
             options={MAZES}
+            isDisabled={isDisabled}
             onChange={(e) => {
               handleMazeGenaration(e.target.value as MazeType);
             }}
@@ -92,6 +95,7 @@ const Nav = () => {
             label="Graph"
             value={algorithm}
             options={PATHFINDING_ALGORITHMS}
+            isDisabled={isDisabled}
             onChange={(e) => {
               setAlgorithm(e.target.value as AlgorithmType);
             }}
