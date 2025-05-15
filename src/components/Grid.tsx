@@ -34,22 +34,14 @@ const Grid = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObje
 
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div
-          className={twMerge(
-            "border-sky-300 mt-10",
-            "h-[663px] w-[833px]", // Large screens (default)
-            "md:h-[585px] md:w-[735px]", // Medium screens
-            "sm:h-[312px] sm:w-[392px]", // Small screens
-            "xs:h-[273px] xs:w-[343px]" // Extra small screens
-          )}
-        >
+        <div className="grid grid-cols-[repeat(49,17px)] grid-rows-[repeat(39,17px)] gap-0">
           {grid.map((row, rowIndex) => (
-            <div key={rowIndex} className="flex">
+            <React.Fragment key={rowIndex}>
               {row.map((tile, tileIndex) => {
                 const {isEnd, isStart, isPath, isTraversed, isWall} = tile;
                 return (
                   <Tile 
-                    key={tileIndex}
+                    key={`${rowIndex}-${tileIndex}`}
                     row={tile.row}
                     col={tile.col}
                     isEnd={isEnd}
@@ -63,7 +55,7 @@ const Grid = ({isVisualizationRunningRef} : {isVisualizationRunningRef : RefObje
                   />
                 )
               })}
-            </div>
+            </React.Fragment>
           ))}
         </div>
       </div>
